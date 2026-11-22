@@ -20,7 +20,7 @@ The `dist` folder can be served by any static web host. If you edit the source f
 
 ## Included
 
-- Dashboard, searchable subjects, 15 numbered textbook sections, 308 vocabulary cards and 120 authored exercises.
+- Dashboard, searchable subjects, 15 numbered textbook sections, 639 vocabulary cards and 120 authored exercises.
 - Flashcards with reveal, difficult-card filtering, personal cards, German pronunciation when the browser has a German voice, confidence ratings and spaced review dates.
 - Multiple choice, fill-in-the-blank, translation and sentence-building exercises; answer explanations and missed-question practice.
 - XP, levels, daily goals, streaks, achievements, unit mastery and activity history.
@@ -30,13 +30,15 @@ The `dist` folder can be served by any static web host. If you edit the source f
 
 ## Content scope: all sections through 1.4d
 
-Checked against the supplied **Cambridge IGCSE German, Second Edition** PDF. Includes every lettered section in 1.1a–d, 1.2a–d, 1.3a–c and 1.4a–d. The book has no 1.3d. These sections occupy printed pages 12–41, which are physical PDF pages 14–43 and stay within the requested pages 1–44.
+Checked against the supplied **Cambridge IGCSE German, Second Edition** PDF. Includes every lettered section in 1.1a–d, 1.2a–d, 1.3a–c and 1.4a–d. The book has no 1.3d. Lessons occupy printed pages 12–41 (PDF pages 14–43). The expanded vocabulary covers every entry on printed pages 42–45 (PDF pages 44–47), as requested in the subsequent vocabulary update.
 
-Every section has its exact textbook heading, page references, revision notes, three bilingual examples, 20–24 vocabulary cards, eight authored exercises covering all four exercise types, and speaking and writing prompts. Writing drafts save locally as you type and are included in backups. Free writing is not automatically graded.
+Every section has its exact textbook heading, page references, revision notes, three bilingual examples, 34–53 vocabulary cards, eight authored exercises covering all four exercise types, and speaking and writing prompts. Writing drafts save locally as you type and are included in backups. Free writing is not automatically graded.
 
 The notes, examples and activities are original revision material aligned to the sections, not a reproduction of every textbook exercise. The full PDF and publisher listening audio are not bundled. Browser pronunciation uses text-to-speech when available.
 
 Older progress, XP, planner entries and personal cards are retained. Previous sample-unit completions do not count as completion of the new textbook sections. The new Chapter explorer achievement requires all 15 actual section IDs.
+
+The four vocabulary pages contain 450 printed entries. Combined synonyms, instrument/music phrases and gender variants are separated into 469 study terms. Matching existing cards are reused; the 308 original card IDs and their wording remain unchanged. The collection now has 639 cards (331 added), with 34–53 per section. The textbook’s obvious printing errors are normalized (for example, hart and die Pommes). Choose 10, 20 or Entire deck in the flashcard session selector.
 
 ## Saving and backups
 
@@ -65,4 +67,4 @@ The automated suite checks persistence, backup validation, scoring, calendar bou
 
 ## Files
 
-`dist/app.js` renders the app; `dist/styles.css` handles responsive themes; `dist/core.js` contains study rules and data validation; `dist/content.js` holds the editable learning material. `server.mjs` is a small local-only static server. `.openai/hosting.json` holds the private Site identity.
+`dist/app.js` renders the app; `dist/styles.css` handles responsive themes; `dist/core.js` contains study rules and data validation; `dist/content.js` holds the editable lessons and merges the full vocabulary tables from `dist/textbook-vocabulary.js`. `server.mjs` is a small local-only static server. `.openai/hosting.json` holds the private Site identity.

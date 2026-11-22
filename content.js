@@ -1,8 +1,24 @@
+import {textbookVocabulary} from './textbook-vocabulary.js';
 // Section titles and page references checked against the supplied textbook.
 // The revision notes, examples and activities below are original adaptations.
-export const source={status:'verified',revision:'textbook-1.4d-v1',title:'Cambridge IGCSE German · Second Edition',pageRange:[1,44],printedPageRange:[12,41],pdfPageRange:[14,43],sectionRange:['1.1a','1.4d'],note:'All 15 lettered sections from 1.1a through 1.4d are included. Book pages 12–41 correspond to PDF pages 14–43, within your pages 1–44 limit. Notes and interactive activities are adapted for this app. Publisher listening audio and the full textbook are not included.'};
+export const source={status:'verified',revision:'textbook-vocabulary-42-45-v2',title:'Cambridge IGCSE German · Second Edition',pageRange:[1,44],printedPageRange:[12,41],pdfPageRange:[14,43],vocabularyPrintedPageRange:[42,45],vocabularyPdfPageRange:[44,47],sectionRange:['1.1a','1.4d'],note:'All 15 sections from 1.1a through 1.4d, plus every vocabulary entry from printed pages 42–45 (PDF pages 44–47). Vocabulary is grouped by the book’s section labels; combined entries are split into individual cards and dictionary forms are normalized where needed. Existing revision cards are retained. Lessons use book pages 12–41 (PDF pages 14–43). Publisher listening audio and the full textbook are not included.'};
 export const chapters=[{id:'1.1',title:'My home',icon:'home',color:'sage',pages:[12,19]},{id:'1.2',title:'My school',icon:'book',color:'sky',pages:[20,27]},{id:'1.3',title:'My eating habits',icon:'sun',color:'peach',pages:[28,33]},{id:'1.4',title:'My body and my health',icon:'heart',color:'lavender',pages:[34,41]}];
 const vocabulary=text=>text.split('|').map(pair=>pair.split('='));
+// Match a headword already taught with an article or singular/plural pair.
+// Existing cards keep their IDs, wording and order so saved reviews remain valid.
+export const vocabularyKey=text=>text.normalize('NFC').trim().toLowerCase().replace(/^(der|die|das)\s+/,'').replace(/[.!?…]/g,'').replace(/\s+/g,' ');
+const withFullVocabulary=u=>{
+ const chapter=chapters.find(c=>c.id===u.id.slice(0,3)),book=textbookVocabulary[u.id];
+ const deck=u.words.map(([front,back],i)=>({id:`${u.id}-${i}`,unit:u.id,front,back}));
+ const byWord=new Map();
+ for(const card of deck)for(const alias of [card.front,...card.front.split(' / ')])byWord.set(vocabularyKey(alias),card);
+ const vocabularyCoverage=book.entries.map(entry=>({row:entry.row,terms:entry.terms.map((term,i)=>{
+  let card=byWord.get(vocabularyKey(term));
+  if(!card){card={id:`${u.id}-vocab-${entry.row}-${i+1}`,unit:u.id,front:term,back:entry.meanings[i]};deck.push(card);byWord.set(vocabularyKey(term),card);}
+  return {term,cardId:card.id};
+ })}));
+ return {...u,words:deck.map(c=>[c.front,c.back]),deck,vocabularyCoverage,vocabularyPage:book.page,code:u.id,chapter:chapter.id,icon:chapter.icon,color:chapter.color,minutes:15,pages:[u.page,u.page+1],pdfPages:[u.page+2,u.page+3]};
+};
 export const units=[
  {id:'1.1a',title:'Wo ich wohne',subtitle:'Where I live',page:12,description:'Describe your location and type of home; use indefinite articles in the nominative and accusative.',
  lesson:{title:'Start with where you live.',intro:'Give your country, town or region, then describe your home. Ich wohne introduces where you live. Es gibt introduces something that is there.',rule:'A masculine noun changes from ein to einen in the accusative: Das ist ein Garten → Ich habe einen Garten. Feminine eine and neuter ein stay the same.',points:['Nominative: ein Garten, eine Wohnung, ein Haus. Accusative: einen Garten, eine Wohnung, ein Haus.','Use in with towns and most countries: in Berlin, in Deutschland. Some countries take an article: in der Schweiz.','Useful location phrases: auf dem Land, am Meer, an der Küste, in den Bergen.'],examples:[['Ich wohne in einer Kleinstadt.','I live in a small town.'],['Wir haben ein Reihenhaus.','We have a terraced house.'],['Es gibt einen Garten.','There is a garden.']],tip:'Learn the noun with its article. It helps you choose ein, eine or einen later.'},
@@ -79,6 +95,6 @@ export const units=[
  words:vocabulary('gesund leben=to live healthily|die Bewegung=movement / exercise|die Entspannung=relaxation|sportlich=sporty|ungesund=unhealthy|die Gewohnheit=habit|aufgeben=to give up|ausgeben=to spend|ausgehen=to go out|aufmachen=to open|fernsehen=to watch television|zubereiten=to prepare|ausprobieren=to try out|zurückkommen=to come back|sich ausruhen=to rest|mitmachen=to take part|mitspielen=to join in a game|weiterspielen=to continue playing|die Freizeit=free time|die Sportart=type of sport'),
  speaking:'Describe your daily habits, including meals, activity and relaxation. Use four separable verbs and one modal verb.',writing:'Write a blog entry about your routine. Include eating, sport and relaxation, explain your preferences and describe a habit you would like to change.',
  exercises:[['fill','Am Abend sehe ich ___. (fernsehen)',['fern'],'The separable prefix fern goes to the end.'],['translate','Translate: to take part',['mitmachen'],'Mitmachen is a separable verb.'],['order','Build: We prepare dinner.',['Wir','bereiten','das','Abendessen','zu'],'Zubereiten splits into bereiten … zu.'],['choice','Which sentence is correct?',['Ich will mitmachen.','Ich will mache mit.','Ich mit will machen.','Ich mache will mit.'],'With a modal, the separable infinitive stays together at the end.'],['fill','Nach der Schule ruhe ich ___ aus.',['mich'],'Sich ausruhen needs mich with ich.'],['translate','Translate: to try out',['ausprobieren'],'Ausprobieren splits into probiere … aus in a main clause.'],['order','Build: He comes back at six o’clock.',['Er','kommt','um','sechs','Uhr','zurück'],'Zurückkommen splits; zurück is last.'],['choice','Which verb splits as gibt … auf?',['aufgeben','ausgeben','aufmachen','ausgehen'],'Aufgeben becomes gibt … auf with er/sie/es.']]},
-].map(u=>{const chapter=chapters.find(c=>c.id===u.id.slice(0,3));return {...u,code:u.id,chapter:chapter.id,icon:chapter.icon,color:chapter.color,minutes:15,pages:[u.page,u.page+1],pdfPages:[u.page+2,u.page+3]};});
-export const cards=units.flatMap(u=>u.words.map(([front,back],i)=>({id:`${u.id}-${i}`,unit:u.id,front,back})));
+].map(withFullVocabulary);
+export const cards=units.flatMap(u=>u.deck);
 export const exercises=units.flatMap(u=>u.exercises.map(([type,prompt,answers,explanation],i)=>({id:`ex-${u.id}-${i}`,unit:u.id,type,prompt,answers,explanation})));

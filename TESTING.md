@@ -4,11 +4,21 @@ Course update verified on 22 November 2026. Original app checks were completed o
 
 ## Automated checks
 
-All **21 Node.js tests pass**. They cover the exact 15-section sequence through 1.4d, contiguous source page references within PDF pages 1–44, all four exercise types in every section, unique card and question IDs, local calendar dates, streaks, XP deduplication, levels, review scheduling, mastery, scoring, answer normalization, backup validation, storage failures and shuffling. New regression checks verify that old backups retain XP and history without falsely completing textbook sections, writing drafts round-trip safely, and the course achievement requires all 15 real section IDs.
+All **24 Node.js tests pass**. They cover the exact 15-section sequence through 1.4d, contiguous lesson source page references within PDF pages 1–44, all four exercise types in every section, unique card and question IDs, local calendar dates, streaks, XP deduplication, levels, review scheduling, mastery, scoring, answer normalization, backup validation, storage failures and shuffling. Regression checks verify that old backups retain XP and history without falsely completing textbook sections, writing drafts round-trip safely, and the course achievement requires all 15 real section IDs. Vocabulary checks cover all 450 entries on printed pages 42–45, all 469 separated terms, correct translations for split phrases, and unchanged IDs and wording for every one of the original 308 cards.
 
 JavaScript syntax checks pass for the application, study rules and content modules. Local HTTP server responds with status 200.
 
 ## Interactive browser checks
+
+The full-vocabulary update was checked in both the self-contained edition and the module-based app:
+
+- The library reports 639 cards, with 34–53 cards in each of the 15 sections.
+- Selecting 1.1a and Entire deck starts a session with all 35 cards; a newly added Spanien card reveals Spain correctly.
+- Selecting 1.4d and 20 cards starts a session of exactly 20 cards.
+- Search finds the new phrase den Wettbewerb gewinnen and opens its card with the correct meaning, to win the competition.
+- At 390 × 844, the long phrase and the expanded setup controls have no horizontal overflow. The temporary viewport was reset.
+- No progress was awarded during these read/reveal checks. Browser error/warning logs were empty.
+- Printed vocabulary pages 42–45 were visually checked in full; these correspond to physical PDF pages 44–47. This expands the earlier lesson-only source scope at the user's request.
 
 The following checks were repeated for the textbook update:
 
